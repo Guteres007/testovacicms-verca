@@ -8,24 +8,13 @@
     .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
 </style>
 
-
-    {% for message in app.flashes('success') %}
-        <div class="flash-notice" style="background: green; padding: 30px 20px; color: white;">
-            {{ message }}
-        </div>
-    {% endfor %}
-
-
-    {% for post in posts %}
         {{ post.id }} <br>
         {{ post.name }} <br>
         {{ post.description }}
         category: {{ post.getCategory.getName ?? "" }}
         <br>
-        odkaz zde:
-        <a href="{{ path('post_show', { id: post.id }) }}">{{ post.name }}</a>
-        <hr>
-    {% endfor %}
-
+        <a href="{{ path('post_delete', {id: post.id}) }}">Smazat</a>
+        <br>
+        <a href="{{ path('post_edit', {id: post.id}) }}">Editovat</a>
 
 {% endblock %}
