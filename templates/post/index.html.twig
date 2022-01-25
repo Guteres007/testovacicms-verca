@@ -17,13 +17,17 @@
 
 
     {% for post in posts %}
-        {{ post.id }} <br>
-        {{ post.name }} <br>
-        {{ post.description }}
+        {{ post.getId }} <br>
+        {{ post.getName }} <br>
+        {{ post.getDescription }}
         category: {{ post.getCategory.getName ?? "" }}
         <br>
+            {%for label in post.getLabels %}
+                   <span style="color: red; padding: 3px;">{{ label.getName }}</span><br>
+            {% endfor %}
+        <br>
         odkaz zde:
-        <a href="{{ path('post_show', { id: post.id }) }}">{{ post.name }}</a>
+        <a href="{{ path('post_show', { id: post.id }) }}">{{ post.getName }}</a>
         <hr>
     {% endfor %}
 
