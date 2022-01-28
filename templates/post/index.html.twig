@@ -17,6 +17,7 @@
 
 
     {% for post in posts %}
+        <img src="{{ asset(post.getImage.getPath ?? '')}}" alt="" style="width: 120px;">
         {{ post.getId }} <br>
         {{ post.getName }} <br>
         {{ post.getDescription }}

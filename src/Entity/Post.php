@@ -41,6 +41,11 @@ class Post
      */
     private $labels;
 
+    /**
+     * @ORM\OneToOne(targetEntity=PostImage::class, cascade={"persist", "remove"})
+     */
+    private $image;
+
     public function __construct()
     {
         $this->labels = new ArrayCollection();
@@ -113,6 +118,18 @@ class Post
                 $label->setPost(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getImage(): ?PostImage
+    {
+        return $this->image;
+    }
+
+    public function setImage(?PostImage $image): self
+    {
+        $this->image = $image;
 
         return $this;
     }

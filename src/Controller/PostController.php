@@ -3,9 +3,12 @@
 namespace App\Controller;
 
 use App\Entity\Post;
+use App\Entity\PostImage;
 use App\Repository\PostRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Filesystem\Filesystem;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\HttpFoundation\Request;
@@ -43,6 +46,9 @@ class PostController extends AbstractController
        $form = $this->createFormBuilder($post)
             ->add('name', TextType::class)
             ->add('description', TextType::class)
+            ->add('postImage', FileType::class, [
+                'mapped' => false
+            ])
             ->add('save', SubmitType::class, ['label' => 'Odeslat'])
             ->getForm();
 
@@ -55,9 +61,20 @@ class PostController extends AbstractController
         }
 
         if ($form->isSubmitted() && $form->isValid() ) {
+
+            $image = $request->files->get('form')['postImage'];
+            $fileName = $image->getClientOriginalName();
+            $imageFolderPath = $this->getParameter('image_path');
+            $fullImagePath = $imageFolderPath . $fileName;
+            $image->move($imageFolderPath,  $fileName);
+
+
             $formData = $form->getData();
             $post->setName($formData->getName());
             $post->setDescription($formData->getDescription());
+            $postImage = new PostImage();
+            $postImage->setPath($fullImagePath);
+            $post->setImage($postImage);
 
             $em = $this->doctrine->getManager();
             $em->persist($post);
@@ -85,11 +102,16 @@ class PostController extends AbstractController
     /**
      * @Route("/post/{id}/delete", name="post_delete")
      */
-    public function delete($id, PostRepository $postRepository)
+    public function delete($id, PostRepository $postRepository, Filesystem $filesystem)
     {
         $post = $postRepository->find($id);
+        if ($post->getImage() !== null ) {
+            $filesystem->remove($post->getImage()->getPath());
+        }
+
         $this->doctrine->getManager()->remove($post);
         $this->doctrine->getManager()->flush();
+
         $this->addFlash('success', 'Smazáno');
         return $this->redirectToRoute('post');
     }
