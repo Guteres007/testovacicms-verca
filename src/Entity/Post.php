@@ -133,4 +133,13 @@ class Post
 
         return $this;
     }
+
+    public function imgPath()
+    {
+        if ($this->image){
+            return $this->image->getPath();
+        }
+
+        return null;
+    }
 }
