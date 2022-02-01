@@ -37,12 +37,12 @@ class Post
     private $category;
 
     /**
-     * @ORM\OneToMany(targetEntity=Label::class, mappedBy="post")
+     * @ORM\OneToMany(targetEntity=Label::class, mappedBy="post", cascade={"persist", "remove"})
      */
     private $labels;
 
     /**
-     * @ORM\OneToOne(targetEntity=PostImage::class, cascade={"persist", "remove"})
+     * @ORM\OneToOne(targetEntity=PostImage::class, cascade={"persist", "remove"}, inversedBy="post")
      */
     private $image;
 
@@ -50,6 +50,7 @@ class Post
     {
         $this->labels = new ArrayCollection();
     }
+
 
     public function getId(): ?int
     {
@@ -134,12 +135,5 @@ class Post
         return $this;
     }
 
-    public function imgPath()
-    {
-        if ($this->image){
-            return $this->image->getPath();
-        }
 
-        return null;
-    }
 }

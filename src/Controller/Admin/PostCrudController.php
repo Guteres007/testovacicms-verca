@@ -3,11 +3,15 @@
 namespace App\Controller\Admin;
 
 use App\Entity\Post;
+use App\Form\PostImageType;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
-use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ImageField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\TextareaField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextEditorField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
+use Vich\UploaderBundle\Form\Type\VichFileType;
+use Vich\UploaderBundle\Form\Type\VichImageType;
 
 class PostCrudController extends AbstractCrudController
 {
@@ -18,13 +22,22 @@ class PostCrudController extends AbstractCrudController
 
     public function configureFields(string $pageName): iterable
     {
-        $url = $this->getParameter('image_path');
+        $name = TextField::new('name', 'Nadpis');
+        $description = TextEditorField::new('description', 'Popis');
+
+         if (Action::NEW == $pageName || Action::EDIT === $pageName) {
+            return [$name, $description,
+                TextareaField::new('image')->setFormType(PostImageType::class)
+             ];
+         }
+
         return [
-            TextField::new('name', 'Nadpis'),
-            TextEditorField::new('description', 'Popis'),
-            ImageField::new('imgPath')->onlyOnIndex(),
-            ImageField::new('image')->setUploadDir('/public/'.$url)->onlyOnForms()
+            $name,
+            $description,
+            ImageField::new('image')->setBasePath('uploads/images')
+            ->onlyOnIndex()
         ];
+
     }
 
 }
