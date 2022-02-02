@@ -32,6 +32,11 @@ class Post
     private $description;
 
     /**
+     * @ORM\Column(type="text", nullable=true)
+     */
+    private $metaDescription;
+
+    /**
      * @ORM\ManyToOne(targetEntity=Category::class, inversedBy="posts")
      */
     private $category;
@@ -131,6 +136,18 @@ class Post
     public function setImage(?PostImage $image): self
     {
         $this->image = $image;
+
+        return $this;
+    }
+
+    public function getMetaDescription(): ?string
+    {
+        return $this->metaDescription;
+    }
+
+    public function setMetaDescription(?string $metaDescription): self
+    {
+        $this->metaDescription = $metaDescription;
 
         return $this;
     }

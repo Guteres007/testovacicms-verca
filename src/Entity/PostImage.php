@@ -107,4 +107,26 @@ class PostImage
     {
        return $this->path;
     }
+
+    public function getPost(): ?Post
+    {
+        return $this->post;
+    }
+
+    public function setPost(?Post $post): self
+    {
+        // unset the owning side of the relation if necessary
+        if ($post === null && $this->post !== null) {
+            $this->post->setImage(null);
+        }
+
+        // set the owning side of the relation if necessary
+        if ($post !== null && $post->getImage() !== $this) {
+            $post->setImage($this);
+        }
+
+        $this->post = $post;
+
+        return $this;
+    }
 }

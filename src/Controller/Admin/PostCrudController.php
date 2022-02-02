@@ -24,9 +24,10 @@ class PostCrudController extends AbstractCrudController
     {
         $name = TextField::new('name', 'Nadpis');
         $description = TextEditorField::new('description', 'Popis');
+        $metaDescription = TextEditorField::new('metaDescription', 'Meta');
 
          if (Action::NEW == $pageName || Action::EDIT === $pageName) {
-            return [$name, $description,
+            return [$name, $description, $metaDescription,
                 TextareaField::new('image')->setFormType(PostImageType::class)
              ];
          }
@@ -34,6 +35,7 @@ class PostCrudController extends AbstractCrudController
         return [
             $name,
             $description,
+            $metaDescription,
             ImageField::new('image')->setBasePath('uploads/images')
             ->onlyOnIndex()
         ];
