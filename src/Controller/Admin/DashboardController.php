@@ -2,6 +2,8 @@
 
 namespace App\Controller\Admin;
 
+
+use Andrasi\TestBundle\TestBundle;
 use App\Entity\Post;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Dashboard;
 use EasyCorp\Bundle\EasyAdminBundle\Config\MenuItem;
@@ -16,6 +18,7 @@ class DashboardController extends AbstractDashboardController
      */
     public function index(): Response
     {
+       dd((new TestBundle())->make());
         parent::index();
         return $this->render('bundles/EasyAdminBundle/pages/dashboard.html.twig');
     }
