@@ -1,6 +1,9 @@
 #index:
 #    path: /
 #    controller: App\Controller\DefaultController::index
+andrasi:
+  # loads routes from the given routing file stored in some bundle
+  resource: '../lib/Andrasi/TestBundle/Resources/config/routing.yaml'
 
 logout:
   path: /logout

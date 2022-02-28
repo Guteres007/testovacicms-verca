@@ -1,0 +1,3 @@
+admin_testovaci:
+    path: /admin/testovaci
+    controller: Andrasi\TestBundle\Controller\TestController::index

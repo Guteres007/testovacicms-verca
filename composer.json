@@ -70,13 +70,14 @@
     },
     "autoload": {
         "psr-4": {
-            "App\\": "src/",
-            "Andrasi\\TestBundle\\": "lib/Andrasi/TestBundle"
+            "App\\": "src/"
+
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "App\\Tests\\": "tests/"
+            "App\\Tests\\": "tests/",
+            "Andrasi\\TestBundle\\": "lib/Andrasi/TestBundle"
         }
     },
     "replace": {
